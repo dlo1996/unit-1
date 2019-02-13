@@ -124,9 +124,9 @@ function addEvents(){
 		var color = "rgb(";
 
 		for (var i=0; i<3; i++){
-// generates random color for mouseover
+// generates random color for mouseover and makes sure the 255 is a rounded number
 			var random = Math.round(Math.random() * 255);
-
+// generates the random color
 			color += random;
 
 			if (i<2){
@@ -141,13 +141,74 @@ function addEvents(){
 	});
 
 	function clickme(){
-
+// if clicked message comes that informs reader that it was clicked.
 		alert('Hey, you clicked me!');
 	};
 
 	$('table').on('click', clickme);
 };
 
+function jsAjax(){
+  // Step 1: Create the request
+  var ajaxRequest = new XMLHttpRequest();
+
+  //Step 2: Create an event handler to send received data to a callback function
+  ajaxRequest.onreadystatechange = function(){
+      if (ajaxRequest.readyState == 4){
+          callback(ajaxRequest.response);
+      };
+  };
+
+  //jQuery.get() method...Example 2.5 line 3
+  $.get("data/MegaCities.geojson", callback, "json");
+};
+
+//define callback function
+function callback(response){
+  //tasks using the data go here
+  console.log(response);
+};
+
+function initialize(){
+//define a variable to hold the data
+    var mydata;
+
+//basic jQuery ajax method
+    $.ajax("data/MegaCities.geojson", {
+        dataType: "json",
+        success: function(response){
+            mydata = response;
+            console.log(json.stringify(mydata);
+        }};
+$("mydiv").load("data/MegaCities.geojson")
+
+function debugCallback(response){
+
+	$("#mydiv").append('GeoJSON data: ' + JSON.stringify(mydata));
+};
+//defining function
+function debugAjax(){
+	//bringing variable mydata
+	var mydata;
+	//calling jquery through ajax to bring geojson data
+  //checking dataType
+	$.ajax("data/MegaCities.geojson", {
+		dataType: "json",
+		success: function(response){
+
+			mydata = response;
+		//checking data
+			console.log(mydata);
+		}
+	});
+		// chekcing data again
+			console.log(mydata);
+
+	$("#mydiv").append('<br>GeoJSON data:<br>' + JSON.stringify(mydata));
+};
+
+//$("mydiv").append('GeoJSON data: ' + JSON.stringify(mydata));
+window.onload = jsAjax();
 
 //call the initialize function when the document has loaded
 $(document).ready(initialize);
